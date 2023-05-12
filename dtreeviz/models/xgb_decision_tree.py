@@ -156,10 +156,7 @@ class ShadowXGBDTree(ShadowDecTree):
 
     def _split_column_value(self, column_name):
         def split_value(value):
-            if isinstance(value, str):
-                return value.split("-")[1]
-            else:
-                return value
+            return value.split("-")[1] if isinstance(value, str) else value
 
         return self.tree_to_dataframe.apply(lambda row: split_value(row.get(f"{column_name}")), axis=1)
 
@@ -208,10 +205,7 @@ class ShadowXGBDTree(ShadowDecTree):
         return self.tree_to_dataframe.shape[0]
 
     def nclasses(self):
-        if not self.is_classifier():
-            return 1
-        else:
-            return len(np.unique(self.y_data))
+        return 1 if not self.is_classifier() else len(np.unique(self.y_data))
 
     def classes(self):
         if self.is_classifier():

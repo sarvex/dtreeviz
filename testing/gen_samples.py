@@ -47,28 +47,25 @@ def viz_boston(orientation="TD",
 
     regr.fit(boston.data, boston.target)
 
-    X = None
-    if pickX:
-        X = boston.data[np.random.randint(0, len(boston.data)), :]
-
+    X = boston.data[np.random.randint(0, len(boston.data)), :] if pickX else None
     if fontname == "TakaoPGothic":
         feature_names = list(map(lambda x: f"特徴量{x}", boston.feature_names))
     else:
         feature_names = boston.feature_names
 
-    viz = dtreeviz(regr,
-                   boston.data,
-                   boston.target,
-                   target_name='price',
-                   feature_names=feature_names,
-                   orientation=orientation,
-                   fancy=fancy,
-                   X=X,
-                   label_fontsize=label_fontsize,
-                   ticks_fontsize=ticks_fontsize,
-                   fontname=fontname)
-
-    return viz
+    return dtreeviz(
+        regr,
+        boston.data,
+        boston.target,
+        target_name='price',
+        feature_names=feature_names,
+        orientation=orientation,
+        fancy=fancy,
+        X=X,
+        label_fontsize=label_fontsize,
+        ticks_fontsize=ticks_fontsize,
+        fontname=fontname,
+    )
 
 
 def viz_diabetes(orientation="TD",
@@ -89,19 +86,19 @@ def viz_diabetes(orientation="TD",
     if pickX:
         X = diabetes.data[np.random.randint(0, len(diabetes.data)), :]
 
-    viz = dtreeviz(regr,
-                   diabetes.data,
-                   diabetes.target,
-                   target_name='progr',
-                   feature_names=diabetes.feature_names,
-                   orientation=orientation,
-                   fancy=fancy,
-                   X=X,
-                   label_fontsize=label_fontsize,
-                   ticks_fontsize=ticks_fontsize,
-                   fontname=fontname)
-
-    return viz
+    return dtreeviz(
+        regr,
+        diabetes.data,
+        diabetes.target,
+        target_name='progr',
+        feature_names=diabetes.feature_names,
+        orientation=orientation,
+        fancy=fancy,
+        X=X,
+        label_fontsize=label_fontsize,
+        ticks_fontsize=ticks_fontsize,
+        fontname=fontname,
+    )
 
 
 def viz_sweets(orientation="TD",
@@ -122,23 +119,20 @@ def viz_sweets(orientation="TD",
         max_depth=max_depth, random_state=random_state)
     regr.fit(X_train, y_train)
 
-    X = None
-    if pickX:
-        X = X_train.iloc[np.random.randint(0, len(X_train))]
-
-    viz = dtreeviz(regr,
-                   X_train,
-                   y_train,
-                   target_name='rating',
-                   feature_names=sweets.columns,
-                   orientation=orientation,
-                   fancy=fancy,
-                   X=X,
-                   label_fontsize=label_fontsize,
-                   ticks_fontsize=ticks_fontsize,
-                   fontname=fontname)
-
-    return viz
+    X = X_train.iloc[np.random.randint(0, len(X_train))] if pickX else None
+    return dtreeviz(
+        regr,
+        X_train,
+        y_train,
+        target_name='rating',
+        feature_names=sweets.columns,
+        orientation=orientation,
+        fancy=fancy,
+        X=X,
+        label_fontsize=label_fontsize,
+        ticks_fontsize=ticks_fontsize,
+        fontname=fontname,
+    )
 
 
 def viz_fires(orientation="TD",
@@ -162,23 +156,20 @@ def viz_fires(orientation="TD",
                                       random_state=random_state)
     regr.fit(X_train, y_train)
 
-    X = None
-    if pickX:
-        X = X_train.iloc[np.random.randint(0, len(X_train))].values
-
-    viz = dtreeviz(regr,
-                   X_train,
-                   y_train,
-                   target_name='area',
-                   feature_names=fires.columns,
-                   orientation=orientation,
-                   fancy=fancy,
-                   X=X,
-                   label_fontsize=label_fontsize,
-                   ticks_fontsize=ticks_fontsize,
-                   fontname=fontname)
-
-    return viz
+    X = X_train.iloc[np.random.randint(0, len(X_train))].values if pickX else None
+    return dtreeviz(
+        regr,
+        X_train,
+        y_train,
+        target_name='area',
+        feature_names=fires.columns,
+        orientation=orientation,
+        fancy=fancy,
+        X=X,
+        label_fontsize=label_fontsize,
+        ticks_fontsize=ticks_fontsize,
+        fontname=fontname,
+    )
 
 
 # CLASSIFICATION
@@ -202,26 +193,21 @@ def viz_iris(orientation="TD",
     else:
         feature_names = iris.feature_names
 
-    X = None
-    if pickX:
-        X = iris.data[np.random.randint(0, len(iris.data)), :]
-
-    viz = dtreeviz(clf,
-                   iris.data,
-                   iris.target,
-                   target_name='variety',
-                   feature_names=feature_names,
-                   orientation=orientation,
-                   class_names=["setosa",
-                                "versicolor",
-                                "virginica"],  # 0,1,2 targets
-                   fancy=fancy,
-                   X=X,
-                   label_fontsize=label_fontsize,
-                   ticks_fontsize=ticks_fontsize,
-                   fontname=fontname)
-
-    return viz
+    X = iris.data[np.random.randint(0, len(iris.data)), :] if pickX else None
+    return dtreeviz(
+        clf,
+        iris.data,
+        iris.target,
+        target_name='variety',
+        feature_names=feature_names,
+        orientation=orientation,
+        class_names=["setosa", "versicolor", "virginica"],  # 0,1,2 targets
+        fancy=fancy,
+        X=X,
+        label_fontsize=label_fontsize,
+        ticks_fontsize=ticks_fontsize,
+        fontname=fontname,
+    )
 
 
 def viz_digits(orientation="TD",
@@ -241,24 +227,22 @@ def viz_digits(orientation="TD",
 
     clf.fit(digits.data, digits.target)
 
-    X = None
-    if pickX:
-        X = digits.data[np.random.randint(0, len(digits.data)), :]
-
-    viz = dtreeviz(clf,
-                   digits.data,
-                   digits.target,
-                   target_name='number',
-                   feature_names=columns,
-                   orientation=orientation,
-                   class_names=[chr(c) for c in range(ord('0'), ord('9')+1)],
-                   fancy=fancy,
-                   histtype='bar',
-                   X=X,
-                   label_fontsize=label_fontsize,
-                   ticks_fontsize=ticks_fontsize,
-                   fontname=fontname)
-    return viz
+    X = digits.data[np.random.randint(0, len(digits.data)), :] if pickX else None
+    return dtreeviz(
+        clf,
+        digits.data,
+        digits.target,
+        target_name='number',
+        feature_names=columns,
+        orientation=orientation,
+        class_names=[chr(c) for c in range(ord('0'), ord('9') + 1)],
+        fancy=fancy,
+        histtype='bar',
+        X=X,
+        label_fontsize=label_fontsize,
+        ticks_fontsize=ticks_fontsize,
+        fontname=fontname,
+    )
 
 
 def viz_wine(orientation="TD",
@@ -275,23 +259,21 @@ def viz_wine(orientation="TD",
 
     clf.fit(wine.data, wine.target)
 
-    X = None
-    if pickX:
-        X = wine.data[np.random.randint(0, len(wine.data)), :]
-
-    viz = dtreeviz(clf,
-                   wine.data,
-                   wine.target,
-                   target_name='wine',
-                   feature_names=wine.feature_names,
-                   orientation=orientation,
-                   class_names=list(wine.target_names),
-                   fancy=fancy,
-                   X=X,
-                   label_fontsize=label_fontsize,
-                   ticks_fontsize=ticks_fontsize,
-                   fontname=fontname)
-    return viz
+    X = wine.data[np.random.randint(0, len(wine.data)), :] if pickX else None
+    return dtreeviz(
+        clf,
+        wine.data,
+        wine.target,
+        target_name='wine',
+        feature_names=wine.feature_names,
+        orientation=orientation,
+        class_names=list(wine.target_names),
+        fancy=fancy,
+        X=X,
+        label_fontsize=label_fontsize,
+        ticks_fontsize=ticks_fontsize,
+        fontname=fontname,
+    )
 
 
 def viz_breast_cancer(orientation="TD",
@@ -308,23 +290,21 @@ def viz_breast_cancer(orientation="TD",
 
     clf.fit(cancer.data, cancer.target)
 
-    X = None
-    if pickX:
-        X = cancer.data[np.random.randint(0, len(cancer)), :]
-
-    viz = dtreeviz(clf,
-                   cancer.data,
-                   cancer.target,
-                   target_name='cancer',
-                   feature_names=cancer.feature_names,
-                   orientation=orientation,
-                   class_names=list(cancer.target_names),
-                   fancy=fancy,
-                   X=X,
-                   label_fontsize=label_fontsize,
-                   ticks_fontsize=ticks_fontsize,
-                   fontname=fontname)
-    return viz
+    X = cancer.data[np.random.randint(0, len(cancer)), :] if pickX else None
+    return dtreeviz(
+        clf,
+        cancer.data,
+        cancer.target,
+        target_name='cancer',
+        feature_names=cancer.feature_names,
+        orientation=orientation,
+        class_names=list(cancer.target_names),
+        fancy=fancy,
+        X=X,
+        label_fontsize=label_fontsize,
+        ticks_fontsize=ticks_fontsize,
+        fontname=fontname,
+    )
 
 
 def viz_knowledge(orientation="TD",
@@ -345,23 +325,21 @@ def viz_knowledge(orientation="TD",
     X_train, y_train = know.drop('UNS', axis=1), know['UNS']
     clf.fit(X_train, y_train)
 
-    X = None
-    if pickX:
-        X = X_train.iloc[np.random.randint(0, len(know))]
-
-    viz = dtreeviz(clf,
-                   X_train,
-                   y_train,
-                   target_name='UNS',
-                   feature_names=X_train.columns.values,
-                   orientation=orientation,
-                   class_names=target_names,
-                   fancy=fancy,
-                   X=X,
-                   label_fontsize=label_fontsize,
-                   ticks_fontsize=ticks_fontsize,
-                   fontname=fontname)
-    return viz
+    X = X_train.iloc[np.random.randint(0, len(know))] if pickX else None
+    return dtreeviz(
+        clf,
+        X_train,
+        y_train,
+        target_name='UNS',
+        feature_names=X_train.columns.values,
+        orientation=orientation,
+        class_names=target_names,
+        fancy=fancy,
+        X=X,
+        label_fontsize=label_fontsize,
+        ticks_fontsize=ticks_fontsize,
+        fontname=fontname,
+    )
 
 
 def save(name, dirname, orientation, max_depth, fancy=True, pickX=False, fontname="Arial"):
@@ -397,11 +375,7 @@ if __name__ == '__main__':
         t[1]) == sys.modules[__name__]]
     viz_funcs = [f[1] for f in these_functions if f[0].startswith('viz_')]
 
-    if len(sys.argv) > 1:
-        dirname = sys.argv[1]
-    else:
-        dirname = "."
-
+    dirname = sys.argv[1] if len(sys.argv) > 1 else "."
     print(f"tmp dir is {tempfile.gettempdir()}")
     for f in viz_funcs:
         name = f.__name__[len("viz_"):]

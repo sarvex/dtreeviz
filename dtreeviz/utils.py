@@ -65,8 +65,7 @@ def inline_svg_images(svg) -> str:
 
     ET.register_namespace('', "http://www.w3.org/2000/svg")
     ET.register_namespace('xlink', "http://www.w3.org/1999/xlink")
-    xml_str = ET.tostring(root).decode()
-    return xml_str
+    return ET.tostring(root).decode()
 
 
 def get_SVG_shape(svg) -> Tuple[Number,Number,Sequence[Number]]:
@@ -114,15 +113,14 @@ def scale_SVG(svg:str, scale:float) -> str:
 
     ET.register_namespace('', "http://www.w3.org/2000/svg")
     ET.register_namespace('xlink', "http://www.w3.org/1999/xlink")
-    xml_str = ET.tostring(root).decode()
-    return xml_str
+    return ET.tostring(root).decode()
     # print(root.attrib)
     # return ET.tostring(root, encoding='utf8', method='xml').decode("utf-8")
 
     # return root.tostring()#ET.tostring(root, 'utf-8')
 
 def myround(v,ndigits=2):
-    return format(v, '.' + str(ndigits) + 'f')
+    return format(v, f'.{str(ndigits)}f')
 
 
 def _extract_final_feature_names(pipeline, features):
@@ -152,7 +150,7 @@ def _normalize_class_names(class_names, nclasses):
     if isinstance(class_names, dict):
         return class_names
     elif isinstance(class_names, Sequence):
-        return {i: n for i, n in enumerate(class_names)}
+        return dict(enumerate(class_names))
     else:
         raise Exception(f"class_names must be dict or sequence, not {class_names.__class__.__name__}")
 
@@ -190,7 +188,9 @@ def check_tree_index(tree_index, nr_of_trees):
     if tree_index is None:
         raise ValueError("You need to pass in a tree_index parameter.")
     if tree_index >= nr_of_trees:
-        raise ValueError(f"tree_index parameter should have values between [{0}, {nr_of_trees - 1}].")
+        raise ValueError(
+            f"tree_index parameter should have values between [0, {nr_of_trees - 1}]."
+        )
 
 
 if __name__ == '__main__':

@@ -41,27 +41,22 @@ def viz_iris(orientation="TD",
     else:
         feature_names = iris.feature_names
 
-    X = None
-    if pickX:
-        X = iris.data[np.random.randint(0, len(iris.data)), :]
-
-    viz = dtreeviz(clf,
-                   iris.data,
-                   iris.target,
-                   target_name='variety',
-                   feature_names=feature_names,
-                   orientation=orientation,
-                   class_names=["setosa",
-                                "versicolor",
-                                "virginica"],  # 0,1,2 targets
-                   fancy=fancy,
-                   X=X,
-                   label_fontsize=label_fontsize,
-                   ticks_fontsize=ticks_fontsize,
-                   fontname=fontname,
-                   scale=(.5,.5))
-
-    return viz
+    X = iris.data[np.random.randint(0, len(iris.data)), :] if pickX else None
+    return dtreeviz(
+        clf,
+        iris.data,
+        iris.target,
+        target_name='variety',
+        feature_names=feature_names,
+        orientation=orientation,
+        class_names=["setosa", "versicolor", "virginica"],  # 0,1,2 targets
+        fancy=fancy,
+        X=X,
+        label_fontsize=label_fontsize,
+        ticks_fontsize=ticks_fontsize,
+        fontname=fontname,
+        scale=(0.5, 0.5),
+    )
 
 viz_iris().save("/tmp/t.svg")
 

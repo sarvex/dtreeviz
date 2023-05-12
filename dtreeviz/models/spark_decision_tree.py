@@ -37,32 +37,32 @@ class ShadowSparkTree(ShadowDecTree):
             tree_nodes[node_id] = node
             if node.numDescendants() == 0:
                 return
-            else:
-                node_index += 1
-                children_left[node_id] = node_index
-                recur(node.leftChild(), node_index)
+            node_index += 1
+            children_left[node_id] = node_index
+            recur(node.leftChild(), node_index)
 
-                node_index += 1
-                children_right[node_id] = node_index
-                recur(node.rightChild(), node_index)
+            node_index += 1
+            children_right[node_id] = node_index
+            recur(node.rightChild(), node_index)
 
         recur(tree_model._call_java('rootNode'), 0)
         return tree_nodes, children_left, children_right
 
     def is_fit(self) -> bool:
-        if isinstance(self.tree_model, (DecisionTreeClassificationModel, DecisionTreeRegressionModel)):
-            return True
-        return False
+        return isinstance(
+            self.tree_model,
+            (DecisionTreeClassificationModel, DecisionTreeRegressionModel),
+        )
 
     def is_classifier(self) -> bool:
         return isinstance(self.tree_model, DecisionTreeClassificationModel)
 
     def is_categorical_split(self, id) -> bool:
         node = self.tree_nodes[id]
-        if "InternalNode" in node.toString():
-            if "CategoricalSplit" in node.split().toString():
-                return True
-        return False
+        return (
+            "InternalNode" in node.toString()
+            and "CategoricalSplit" in node.split().toString()
+        )
 
     def get_class_weights(self):
         pass
@@ -101,12 +101,7 @@ class ShadowSparkTree(ShadowDecTree):
         return self._get_tree_model_parameter_value("impurity")
 
     def nclasses(self) -> int:
-        if not self.is_classifier():
-            return 1
-
-        # TODO for multiclass decision tree, the numClasses is the max of classe values + 1
-        # ex. [15, 25, 35, 40, 45, 55, 65, 70] -> numClasses = 71
-        return self.tree_model.numClasses
+        return 1 if not self.is_classifier() else self.tree_model.numClasses
 
     # TODO
     # for this we need y_dataset to be specified, think how to solve it without specifing the y_data

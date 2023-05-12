@@ -38,22 +38,20 @@ def viz_breast_cancer(orientation="TD",
 
     clf.fit(cancer.data, cancer.target)
 
-    X = None
-    if pickX:
-        X = cancer.data[np.random.randint(0, len(cancer)), :]
-
-    viz = dtreeviz(clf,
-                   cancer.data,
-                   cancer.target,
-                   target_name='cancer',
-                   feature_names=cancer.feature_names,
-                   orientation=orientation,
-                   class_names=list(cancer.target_names),
-                   fancy=fancy,
-                   X=X,
-                   label_fontsize=label_fontsize,
-                   ticks_fontsize=ticks_fontsize,
-                   fontname=fontname)
-    return viz
+    X = cancer.data[np.random.randint(0, len(cancer)), :] if pickX else None
+    return dtreeviz(
+        clf,
+        cancer.data,
+        cancer.target,
+        target_name='cancer',
+        feature_names=cancer.feature_names,
+        orientation=orientation,
+        class_names=list(cancer.target_names),
+        fancy=fancy,
+        X=X,
+        label_fontsize=label_fontsize,
+        ticks_fontsize=ticks_fontsize,
+        fontname=fontname,
+    )
 
 viz_breast_cancer().view()

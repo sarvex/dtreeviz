@@ -85,10 +85,7 @@ class ShadowLightGBMTree(ShadowDecTree):
 
     def is_categorical_split(self, id) -> bool:
         node = self.tree_nodes[id]
-        if 'split_index' in node:
-            if node["decision_type"] == "==":
-                return True
-        return False
+        return 'split_index' in node and node["decision_type"] == "=="
 
     def get_class_weights(self):
         pass

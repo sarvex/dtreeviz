@@ -30,14 +30,18 @@ def viz_iris(orientation="TD", max_depth=5, random_state=666, fancy=True):
 
     features = list(data.columns)
     features = np.array(['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)', 'petal width (cm)'])
-    st = dtreeviz(clf, iris.data, iris.target, target_name='variety',
-                  feature_names=features, orientation=orientation,
-                  class_names=["setosa", "versicolor", "virginica"],  # 0,1,2 targets
-                  #histtype='strip',
-                  fancy=fancy,
-                  X=x)
-
-    return st
+    return dtreeviz(
+        clf,
+        iris.data,
+        iris.target,
+        target_name='variety',
+        feature_names=features,
+        orientation=orientation,
+        class_names=["setosa", "versicolor", "virginica"],  # 0,1,2 targets
+        # histtype='strip',
+        fancy=fancy,
+        X=x,
+    )
 
 def viz_boston(orientation="TD", max_depth=3, random_state=666, fancy=True):
     regr = tree.DecisionTreeRegressor(max_depth=max_depth, random_state=random_state)
@@ -72,13 +76,18 @@ def viz_knowledge(orientation="TD", max_depth=3, random_state=666, fancy=True):
 
     X = X_train.iloc[np.random.randint(0, len(know))]
 
-    viz = dtreeviz(clf, X_train[['PEG','LPR']], y_train, target_name='UNS',
-                  feature_names=['PEG','LPR'], orientation=orientation,
-                  class_names=target_names,
-#                   show_node_labels=True,
-                   histtype='strip',
-                   fancy=fancy)
-    return viz
+    return dtreeviz(
+        clf,
+        X_train[['PEG', 'LPR']],
+        y_train,
+        target_name='UNS',
+        feature_names=['PEG', 'LPR'],
+        orientation=orientation,
+        class_names=target_names,
+        # #                   show_node_labels=True,
+        histtype='strip',
+        fancy=fancy,
+    )
 
 def viz_diabetes(orientation="TD", max_depth=3, random_state=666, fancy=True, pickX=False):
     diabetes = load_diabetes()
@@ -90,12 +99,16 @@ def viz_diabetes(orientation="TD", max_depth=3, random_state=666, fancy=True, pi
     if pickX:
         X = diabetes.data[np.random.randint(0, len(diabetes.data)),:]
 
-    viz = dtreeviz(regr, diabetes.data, diabetes.target, target_name='progr',
-                  feature_names=diabetes.feature_names, orientation=orientation,
-                  fancy=fancy,
-                  X=X)
-
-    return viz
+    return dtreeviz(
+        regr,
+        diabetes.data,
+        diabetes.target,
+        target_name='progr',
+        feature_names=diabetes.feature_names,
+        orientation=orientation,
+        fancy=fancy,
+        X=X,
+    )
 #
 # def viz_knowledge(orientation="TD", max_depth=3, random_state=666, fancy=True, pickX=False):
 #     # data from https://archive.ics.uci.edu/ml/datasets/User+Knowledge+Modeling
@@ -123,16 +136,19 @@ def viz_digits(orientation="TD", max_depth=3, random_state=666, fancy=True, pick
 
     clf.fit(digits.data, digits.target)
 
-    X = None
-    if pickX:
-        X = digits.data[np.random.randint(0, len(digits.data)),:]
-
-    viz = dtreeviz(clf, digits.data, digits.target, target_name='number',
-                  feature_names=columns, orientation=orientation,
-                  class_names=[chr(c) for c in range(ord('0'),ord('9')+1)],
-                  fancy=fancy, histtype='bar',
-                  X=X)
-    return viz
+    X = digits.data[np.random.randint(0, len(digits.data)),:] if pickX else None
+    return dtreeviz(
+        clf,
+        digits.data,
+        digits.target,
+        target_name='number',
+        feature_names=columns,
+        orientation=orientation,
+        class_names=[chr(c) for c in range(ord('0'), ord('9') + 1)],
+        fancy=fancy,
+        histtype='bar',
+        X=X,
+    )
 
 def viz_wine(orientation="TD", max_depth=3, random_state=666, fancy=True, pickX=False):
     clf = tree.DecisionTreeClassifier(max_depth=max_depth)
@@ -142,18 +158,16 @@ def viz_wine(orientation="TD", max_depth=3, random_state=666, fancy=True, pickX=
     y_train = wine.target
     clf.fit(X_train, y_train)
 
-    X = None
-    if pickX:
-        X = X_train[np.random.randint(0, len(X_train.data)),:]
-
-    viz = dtreeviz(clf,
-                   wine.data,
-                   wine.target,
-                   target_name='wine',
-                   feature_names=wine.feature_names,
-                   class_names=list(wine.target_names),
-                   X=X)  # pass the test observation
-    return viz
+    X = X_train[np.random.randint(0, len(X_train.data)),:] if pickX else None
+    return dtreeviz(
+        clf,
+        wine.data,
+        wine.target,
+        target_name='wine',
+        feature_names=wine.feature_names,
+        class_names=list(wine.target_names),
+        X=X,
+    )
 
 
 def weird_binary_case():
@@ -165,15 +179,14 @@ def weird_binary_case():
     x = np.random.choice([-1,1], size=(100, 2))
     y = np.random.choice([0, 1], size=100)
 
-    viz = dtreeviz(
+    return dtreeviz(
         tree_model=DecisionTreeClassifier(max_depth=1).fit(x, y),
         X_train=x,
         y_train=y,
         feature_names=['a', 'b'],
         target_name='y',
-        class_names=[1, 0]
+        class_names=[1, 0],
     )
-    return viz
 
 
 viz = weird_binary_case()

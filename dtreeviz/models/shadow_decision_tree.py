@@ -206,7 +206,6 @@ class ShadowDecTree(ABC):
     @abstractmethod
     def nnodes(self) -> int:
         "Returns the number of nodes (internal nodes + leaves) in the tree."
-        pass
 
     @abstractmethod
     def get_node_criterion(self, id):
@@ -388,7 +387,11 @@ class ShadowDecTree(ABC):
             Contains a numpy array of leaf ids and an array of leaf samples
         """
 
-        max_samples = max_samples if max_samples else max([node.nsamples() for node in self.leaves])
+        max_samples = (
+            max_samples
+            if max_samples
+            else max(node.nsamples() for node in self.leaves)
+        )
         leaf_samples = [(node.id, node.nsamples()) for node in self.leaves if
                         min_samples <= node.nsamples() <= max_samples]
         x, y = zip(*leaf_samples)
@@ -575,14 +578,7 @@ class ShadowDecTreeNode():
         If the node is an internal node, returns None
         """
 
-        if not self.isleaf():
-            return None
-        # if self.isclassifier():
-        #     counts = self.shadow_tree.get_prediction_value(self.id)
-        #     return np.argmax(counts)
-        # else:
-        #     return self.shadow_tree.get_prediction_value(self.id)
-        return self.shadow_tree.get_prediction(self.id)
+        return None if not self.isleaf() else self.shadow_tree.get_prediction(self.id)
 
     def prediction_name(self) -> (str, None):
         """
@@ -592,9 +588,8 @@ class ShadowDecTreeNode():
         Return prediction class or value otherwise.
         """
 
-        if self.isclassifier():
-            if self.shadow_tree.class_names is not None:
-                return self.shadow_tree.class_names[self.prediction()]
+        if self.isclassifier() and self.shadow_tree.class_names is not None:
+            return self.shadow_tree.class_names[self.prediction()]
         return self.prediction()
 
     def class_counts(self) -> (List[int], None):

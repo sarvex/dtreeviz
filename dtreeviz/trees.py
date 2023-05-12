@@ -114,16 +114,14 @@ def rtreeviz_univar(tree_model,
         fig, ax = plt.subplots(1, 1)
 
     if x_data is None or y_data is None:
-        raise ValueError(f"x_train and y_train must not be none")
+        raise ValueError("x_train and y_train must not be none")
 
     colors = adjust_colors(colors)
 
     y_range = (min(y_data), max(y_data))  # same y axis for all
     overall_feature_range = (np.min(x_data), np.max(x_data))
 
-    splits = []
-    for node in shadow_tree.internal:
-        splits.append(node.split())
+    splits = [node.split() for node in shadow_tree.internal]
     splits = sorted(splits)
     bins = [overall_feature_range[0]] + splits + [overall_feature_range[1]]
 
@@ -346,7 +344,7 @@ def ctreeviz_univar(tree_model,
                 rect.set_edgecolor(colors['edge'])
         ax.set_xlim(*overall_feature_range)
         ax.set_xticks(overall_feature_range)
-        ax.set_yticks([0, max([max(h) for h in hist])])
+        ax.set_yticks([0, max(max(h) for h in hist)])
     elif gtype == 'strip':
         # user should pass in short and wide fig
         sigma = .013

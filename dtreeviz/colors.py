@@ -61,6 +61,4 @@ COLORS = {'scatter_edge': GREY,
 
 
 def adjust_colors(colors):
-    if colors is None:
-        return COLORS
-    return dict(COLORS, **colors)
+    return COLORS if colors is None else dict(COLORS, **colors)

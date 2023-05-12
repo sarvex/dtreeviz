@@ -97,11 +97,10 @@ class ShadowSKDTree(ShadowDecTree):
             return self.tree_model.tree_.value[id][0]
 
     def get_prediction(self, id):
-        if self.is_classifier():
-            counts = self.tree_model.tree_.value[id][0]
-            return np.argmax(counts)
-        else:
+        if not self.is_classifier():
             return self.tree_model.tree_.value[id][0][0]
+        counts = self.tree_model.tree_.value[id][0]
+        return np.argmax(counts)
 
     def nnodes(self):
         return self.tree_model.tree_.node_count

@@ -263,7 +263,7 @@ def _compute_tiling(model, X:np.ndarray, y:np.ndarray, binary_threshold,
     else:
         min_x1, max_x1 = min(X1), max(X1) 
         min_x2, max_x2 = min(X2), max(X2)
-        
+
     x1r = max_x1 - min_x1
     x2r = max_x2 - min_x2
     border1 = x1r*0.05 # make a 5% border
@@ -277,9 +277,10 @@ def _compute_tiling(model, X:np.ndarray, y:np.ndarray, binary_threshold,
 
     grid_points = []  # a list of coordinate pairs for the grid
     # Iterate through v1 (x-axis) most quickly then v2 (y-axis)
-    for iv2, v2 in enumerate(np.linspace(*x2range, num=ntiles, endpoint=True)):
-        for iv1, v1 in enumerate(np.linspace(*x1range, num=ntiles, endpoint=True)):
-            grid_points.append([v1, v2])
+    for v2 in np.linspace(*x2range, num=ntiles, endpoint=True):
+        grid_points.extend(
+            [v1, v2] for v1 in np.linspace(*x1range, num=ntiles, endpoint=True)
+        )
     grid_points = np.array(grid_points)
 
     class_values = np.unique(y)

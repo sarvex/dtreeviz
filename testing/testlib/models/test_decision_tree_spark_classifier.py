@@ -110,10 +110,30 @@ def test_get_min_samples_leaf(spark_dtree):
 
 
 def test_get_thresholds(spark_dtree):
-    assert np.array_equal(spark_dtree.get_thresholds(),
-                          np.array([(list([0.0]), list([1.0, 2.0])), 3.5, 2.5, -1, -1, -1, 2.5, 3.5, 1.5, -1, -1, -1,
-                                    24.808349999999997,
-                                    (list([1.0, 2.0]), list([0.0, 3.0])), -1, -1, -1]))
+    assert np.array_equal(
+        spark_dtree.get_thresholds(),
+        np.array(
+            [
+                ([0.0], [1.0, 2.0]),
+                3.5,
+                2.5,
+                -1,
+                -1,
+                -1,
+                2.5,
+                3.5,
+                1.5,
+                -1,
+                -1,
+                -1,
+                24.808349999999997,
+                ([1.0, 2.0], [0.0, 3.0]),
+                -1,
+                -1,
+                -1,
+            ]
+        ),
+    )
     # assert np.array_equal(spark_dtree.get_thresholds(),
     #                       np.array([list([0.0]), 3.5, 2.5, -1, -1, -1, 2.5, 3.5, 1.5, -1, -1, -1, 24.808349999999997,
     #                                 list([1.0, 2.0]), -1, -1, -1]))

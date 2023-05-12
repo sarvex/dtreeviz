@@ -40,7 +40,7 @@ azim_range = np.arange(0, 25, (22-0)/n)
 i = 0
 
 # pause on heatmap topview
-for j in range(10):
+for _ in range(10):
     ax.elev = 90
     ax.azim = 0
     plt.savefig(f"/tmp/cars-frame-{i:02d}.png", bbox_inches=0, pad_inches=0, dpi=300)

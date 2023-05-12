@@ -56,15 +56,14 @@ def explain_prediction_plain_english(shadow_tree: ShadowDecTree,
                 if feature_smaller_values.get(feature_name) is None:
                     feature_smaller_values[feature_name] = []
                 feature_smaller_values.get(feature_name).append(feature_split_value)
-            elif feature_split_value > feature_value:
+            else:
                 if feature_bigger_values.get(feature_name) is None:
                     feature_bigger_values[feature_name] = []
                 feature_bigger_values.get(feature_name).append(feature_split_value)
+        elif feature_value in node_threshold[node_id][0]:
+            feature_categorical_value[feature_name] = node_threshold[node_id][0]
         else:
-            if feature_value in node_threshold[node_id][0]:
-                feature_categorical_value[feature_name] = node_threshold[node_id][0]
-            else:
-                feature_categorical_value[feature_name] = node_threshold[node_id][1]
+            feature_categorical_value[feature_name] = node_threshold[node_id][1]
 
     prediction_path_output = ""
     for feature_name in feature_names:
@@ -80,8 +79,8 @@ def explain_prediction_plain_english(shadow_tree: ShadowDecTree,
         if feature_range != "":
             prediction_path_output += feature_range + "\n"
 
-    for feature_name in feature_categorical_value:
-        prediction_path_output += f"{feature_name} in {feature_categorical_value[feature_name]} \n"
+    for feature_name, value in feature_categorical_value.items():
+        prediction_path_output += f"{feature_name} in {value} \n"
 
     return prediction_path_output
 
